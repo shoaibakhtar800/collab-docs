@@ -16,7 +16,6 @@ export async function POST(req: Request) {
   }
 
   const user = await currentUser();
-
   if (!user) {
     return new Response("Unauthorized", { status: 401 });
   }
@@ -30,7 +29,7 @@ export async function POST(req: Request) {
 
   const isOwner = document.ownerId === user.id;
   const isOrganizationMember = !!(
-    document.organizationId && document.organizationId === sessionClaims.org_id
+    document.organizationId && document.organizationId === sessionClaims.o.id
   );
 
   if (!isOwner && !isOrganizationMember) {
