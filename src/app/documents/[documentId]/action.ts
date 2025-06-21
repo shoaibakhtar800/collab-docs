@@ -5,6 +5,12 @@ import { auth, clerkClient } from "@clerk/nextjs/server";
 import { Id } from "../../../../convex/_generated/dataModel";
 import { api } from "../../../../convex/_generated/api";
 
+interface SessionClaimsOrgType {
+  id: string;
+  rol: string;
+  slg: string;
+}
+
 const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
 
 export async function getDocuments(ids: Id<"documents">[]) {
@@ -16,7 +22,7 @@ export async function getUsers() {
   const clerk = await clerkClient();
 
   const response = await clerk.users.getUserList({
-    organizationId: [sessionClaims?.org_id as string],
+    organizationId: [(sessionClaims?.o as SessionClaimsOrgType).id as string],
   });
 
   const users = response.data.map((user) => ({

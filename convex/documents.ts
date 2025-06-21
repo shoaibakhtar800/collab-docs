@@ -31,6 +31,7 @@ export const create = mutation({
       throw new ConvexError("Unathorized");
     }
 
+    console.log("documents", user);
     const organizationId = (user.organization_id ?? undefined) as string | undefined;
 
     return ctx.db.insert("documents", {
